@@ -1,14 +1,27 @@
 package com.monitorjbl.xlsx.impl;
 
-import com.monitorjbl.xlsx.StreamingReader.Builder;
-import com.monitorjbl.xlsx.exceptions.OpenException;
-import com.monitorjbl.xlsx.exceptions.ReadException;
+import static com.monitorjbl.xlsx.XmlUtils.document;
+import static com.monitorjbl.xlsx.XmlUtils.searchForNodeList;
+import static java.util.Arrays.asList;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.poifs.crypt.Decryptor;
-import org.apache.poi.poifs.crypt.EncryptionInfo;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.SharedStringsTable;
@@ -18,24 +31,9 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import static com.monitorjbl.xlsx.XmlUtils.document;
-import static com.monitorjbl.xlsx.XmlUtils.searchForNodeList;
-import static java.util.Arrays.asList;
+import com.monitorjbl.xlsx.StreamingReader.Builder;
+import com.monitorjbl.xlsx.exceptions.OpenException;
+import com.monitorjbl.xlsx.exceptions.ReadException;
 
 public class StreamingWorkbookReader implements Iterable<Sheet>, AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(StreamingWorkbookReader.class);
@@ -89,16 +87,7 @@ public class StreamingWorkbookReader implements Iterable<Sheet>, AutoCloseable {
 
   public void init(File f) {
     try {
-      if(builder.getPassword() != null) {
-        // Based on: https://poi.apache.org/encryption.html
-        POIFSFileSystem poifs = new POIFSFileSystem(f);
-        EncryptionInfo info = new EncryptionInfo(poifs);
-        Decryptor d = Decryptor.getInstance(info);
-        d.verifyPassword(builder.getPassword());
-        pkg = OPCPackage.open(d.getDataStream(poifs));
-      } else {
-        pkg = OPCPackage.open(f);
-      }
+      pkg = OPCPackage.open(f.getAbsolutePath());
 
       XSSFReader reader = new XSSFReader(pkg);
       SharedStringsTable sst = reader.getSharedStringsTable();
@@ -109,8 +98,6 @@ public class StreamingWorkbookReader implements Iterable<Sheet>, AutoCloseable {
       throw new OpenException("Failed to open file", e);
     } catch(OpenXML4JException | XMLStreamException e) {
       throw new ReadException("Unable to read workbook", e);
-    } catch(GeneralSecurityException e) {
-      throw new ReadException("Unable to read workbook - Decryption failed", e);
     }
   }
 

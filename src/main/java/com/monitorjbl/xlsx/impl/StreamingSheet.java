@@ -1,5 +1,7 @@
 package com.monitorjbl.xlsx.impl;
 
+import java.util.Iterator;
+
 import org.apache.poi.hssf.util.PaneInformation;
 import org.apache.poi.ss.usermodel.AutoFilter;
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,9 +19,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.SheetConditionalFormatting;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
-
-import java.util.Iterator;
-import java.util.List;
 
 public class StreamingSheet implements Sheet {
 
@@ -168,14 +167,6 @@ public class StreamingSheet implements Sheet {
    * Not supported
    */
   @Override
-  public float getColumnWidthInPixels(int columnIndex) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
   public void setDefaultColumnWidth(int width) {
     throw new UnsupportedOperationException();
   }
@@ -289,14 +280,6 @@ public class StreamingSheet implements Sheet {
    */
   @Override
   public CellRangeAddress getMergedRegion(int index) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
-  public List<CellRangeAddress> getMergedRegions() {
     throw new UnsupportedOperationException();
   }
 
@@ -521,14 +504,6 @@ public class StreamingSheet implements Sheet {
    */
   @Override
   public short getLeftCol() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
-  public void showInPane(int toprow, int leftcol) {
     throw new UnsupportedOperationException();
   }
 
@@ -832,14 +807,6 @@ public class StreamingSheet implements Sheet {
    * Not supported
    */
   @Override
-  public List<? extends DataValidation> getDataValidations() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
   public void addValidationData(DataValidation dataValidation) {
     throw new UnsupportedOperationException();
   }
@@ -857,46 +824,6 @@ public class StreamingSheet implements Sheet {
    */
   @Override
   public SheetConditionalFormatting getSheetConditionalFormatting() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
-  public CellRangeAddress getRepeatingRows() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
-  public CellRangeAddress getRepeatingColumns() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
-  public void setRepeatingRows(CellRangeAddress rowRangeRef) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
-  public void setRepeatingColumns(CellRangeAddress columnRangeRef) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
-  public int getColumnOutlineLevel(int columnIndex) {
     throw new UnsupportedOperationException();
   }
 }

@@ -38,14 +38,6 @@ public class StreamingWorkbook implements Workbook, AutoCloseable {
    * {@inheritDoc}
    */
   @Override
-  public Iterator<Sheet> iterator() {
-    return reader.iterator();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public String getSheetName(int sheet) {
     return reader.getSheetProperties().get(sheet).get("name");
   }
@@ -204,14 +196,6 @@ public class StreamingWorkbook implements Workbook, AutoCloseable {
    * Not supported
    */
   @Override
-  public Iterator<Sheet> sheetIterator() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
   public void removeSheetAt(int index) {
     throw new UnsupportedOperationException();
   }
@@ -341,14 +325,6 @@ public class StreamingWorkbook implements Workbook, AutoCloseable {
    */
   @Override
   public void removeName(String name) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Not supported
-   */
-  @Override
-  public int linkExternalWorkbook(String name, Workbook workbook) {
     throw new UnsupportedOperationException();
   }
 
